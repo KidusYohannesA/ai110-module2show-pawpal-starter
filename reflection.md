@@ -13,7 +13,11 @@ A pet class that stores tasks to its pet aswell as basic information about the t
 
 - Did your design change during implementation?
 - If yes, describe at least one change and why you made it.
-
+Task is now the central registry via a class-level pet_task_map, linking each pet to its tasks replacing the scattered Pet.tasks list
+end_time removed from Task; it's now derived via get_end_time() using start_time + duration_minutes
+Pet no longer stores its own task list — it delegates to Task.pet_task_map
+Schedule is the single source of truth for the owner's calendar, with get_tasks_for_pet() for filtering
+Owner.tasks removed — Owner.schedule is the only way to access tasks
 ---
 
 ## 2. Scheduling Logic and Tradeoffs

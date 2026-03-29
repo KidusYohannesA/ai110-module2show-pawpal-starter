@@ -29,6 +29,7 @@ classDiagram
         +String description
         +int duration_minutes
         +String priority
+        +String frequency
         +String start_time
         +String end_time
         +String status
