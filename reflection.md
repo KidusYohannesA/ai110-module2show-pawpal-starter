@@ -5,7 +5,9 @@
 **a. Initial design**
 
 - Briefly describe your initial UML design.
+- Add pet, Add/edit Tasks, Scheduling
 - What classes did you include, and what responsibilities did you assign to each?
+A pet class that stores tasks to its pet aswell as basic information about the task, A Task class detailing more information on the task including time, schedule class that keeps track of the entire schedule/tasks like a weekly calander(Actions: editing a tasks start and end time). Owner class has information about the owner, thier schedule, pets, tasks.
 
 **b. Design changes**
 
