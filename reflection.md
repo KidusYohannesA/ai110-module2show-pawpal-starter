@@ -30,7 +30,9 @@ Owner.tasks removed — Owner.schedule is the only way to access tasks
 **b. Tradeoffs**
 
 - Describe one tradeoff your scheduler makes.
+In sorting tasks by time, the new change has one tradeoff with an edge case where If a task ever had a start_time set to exactly datetime.max (year 9999-12-31 23:59:59), it would sort identically to unscheduled None tasks, making the two indistinguishable in the sorted output.
 - Why is that tradeoff reasonable for this scenario?
+Very unlikely to happen in this project
 
 ---
 

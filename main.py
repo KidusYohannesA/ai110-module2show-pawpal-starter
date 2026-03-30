@@ -27,3 +27,18 @@ schedule.schedule_tasks(today)
 print(f"=== Today's Schedule for {owner.name} ({today}) ===\n")
 for line in schedule.get_explanation():
     print(line)
+
+# --- Conflict demo: manually set two tasks to the same time ---
+Task("Vet checkup", description="Annual exam", duration_minutes=45,
+     priority="high", frequency="once", start_time=f"{today} 09:00", pet=mochi)
+
+Task("Nail trimming", description="Clip nails", duration_minutes=30,
+     priority="medium", frequency="monthly", start_time=f"{today} 09:15", pet=luna)
+
+print("\n=== Conflict Detection ===\n")
+conflicts = schedule.detect_conflicts()
+if conflicts:
+    for warning in conflicts:
+        print(f"⚠{warning}")
+else:
+    print("No scheduling conflicts found.")
