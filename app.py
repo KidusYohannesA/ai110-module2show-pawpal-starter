@@ -43,9 +43,11 @@ if st.button("Add pet"):
         st.warning("Please enter a pet name.")
 
 if owner.pets:
-    st.write("Your pets:")
+    st.write("**Your Pets**")
+    pet_table = "| Name | Species |\n|---|---|\n"
     for pet in owner.pets:
-        st.write(f"- {pet.name} ({pet.species})")
+        pet_table += f"| {pet.name} | {pet.species} |\n"
+    st.markdown(pet_table)
 else:
     st.info("No pets yet. Add one above.")
 
@@ -75,10 +77,23 @@ if owner.pets:
 
     all_tasks = owner.get_all_tasks()
     if all_tasks:
-        st.write("Current tasks:")
-        for t in all_tasks:
-            st.write(f"- **{t.title}** ({t.pet.name}) — {t.duration_minutes} min, "
-                     f"Priority: {t.priority}, Frequency: {t.frequency}")
+        schedule = owner.get_schedule()
+        sorted_tasks = schedule.get_tasks_by_time()
+        st.write("**Current Tasks** (sorted by scheduled time)")
+        task_table = "| Task | Pet | Duration (min) | Priority | Frequency | Scheduled Time |\n"
+        task_table += "|---|---|---|---|---|---|\n"
+        for t in sorted_tasks:
+            time_info = t.start_time.strftime("%Y-%m-%d %H:%M") if t.start_time else "Unscheduled"
+            task_table += (f"| {t.title} | {t.pet.name} | {t.duration_minutes} | "
+                           f"{t.priority.capitalize()} | {t.frequency.capitalize()} | {time_info} |\n")
+        st.markdown(task_table)
+
+        conflicts = schedule.detect_conflicts()
+        if conflicts:
+            for warning in conflicts:
+                st.warning(warning)
+        else:
+            st.success("No task conflicts detected.")
     else:
         st.info("No tasks yet. Add one above.")
 else:
@@ -93,10 +108,25 @@ if owner.pets and owner.get_all_tasks():
     if st.button("Generate schedule"):
         schedule = owner.get_schedule()
         sorted_tasks = schedule.schedule_tasks(today)
-        explanation = schedule.get_explanation()
 
         st.write(f"**Schedule for {owner.name} — {today}**")
-        for line in explanation:
-            st.write(line)
+        sched_table = "| # | Task | Pet | Start | End | Duration (min) | Priority | Frequency |\n"
+        sched_table += "|---|---|---|---|---|---|---|---|\n"
+        for i, task in enumerate(sorted_tasks, 1):
+            pet_name = task.pet.name if task.pet else "Unassigned"
+            start_str = task.start_time.strftime("%H:%M") if task.start_time else "N/A"
+            end_str = task.get_end_time().strftime("%H:%M") if task.start_time else "N/A"
+            sched_table += (f"| {i} | {task.title} | {pet_name} | {start_str} | {end_str} | "
+                            f"{task.duration_minutes} | {task.priority.capitalize()} | "
+                            f"{task.frequency.capitalize()} |\n")
+        st.markdown(sched_table)
+
+        conflicts = schedule.detect_conflicts()
+        if conflicts:
+            st.subheader("Conflict Warnings")
+            for warning in conflicts:
+                st.warning(warning)
+        else:
+            st.success("No scheduling conflicts detected!")
 else:
     st.info("Add at least one pet and one task to generate a schedule.")

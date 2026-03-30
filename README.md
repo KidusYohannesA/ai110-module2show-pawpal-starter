@@ -12,6 +12,17 @@ A busy pet owner needs help staying consistent with pet care. They want an assis
 
 Your job is to design the system first (UML), then implement the logic in Python, then connect it to the Streamlit UI.
 
+## Features
+
+- **Priority-based scheduling** — Tasks are sorted by priority (high > medium > low), with shorter tasks scheduled first at the same level, then assigned back-to-back starting at a configurable hour
+- **Chronological sorting** — `get_tasks_by_time()` sorts tasks by start time using `datetime.max` as a sentinel so unscheduled tasks always appear last
+- **Conflict detection** — `detect_conflicts()` runs a sweep-line pass over sorted tasks, flagging any pair where the next task starts before the current one ends
+- **Recurring task generation** — `mark_complete()` uses a frequency-to-timedelta lookup (`daily` = 1 day, `weekly` = 7 days, `monthly` = 30 days) to auto-create the next occurrence on the same pet
+- **Daily view filtering** — `get_daily_view()` filters all tasks down to a single date, comparing the date component of each task's `datetime` start time
+- **Computed end times** — End times are calculated on the fly via `get_end_time()` (`start_time + duration`), avoiding stored state that can drift out of sync
+- **Cross-pet task aggregation** — Schedule dynamically collects tasks from all pets through `_all_tasks()`, so adding or removing a pet's task is immediately reflected everywhere
+- **Schedule explanation** — `get_explanation()` produces a numbered, human-readable summary of each task with pet name, time window, priority, and frequency
+
 ## What you will build
 
 Your final app should:
@@ -34,8 +45,6 @@ The scheduler has been enhanced with several algorithmic improvements:
 - **Conflict detection** — `detect_conflicts()` uses a sweep-line algorithm to find overlapping task windows across all pets and returns warning messages for each conflict.
 
 ## Testing PawPal+
-
-Run the full test suite with:
 
 ```bash
 python -m pytest tests/test_pawpal.py -v
@@ -70,3 +79,9 @@ pip install -r requirements.txt
 5. Add tests to verify key behaviors.
 6. Connect your logic to the Streamlit UI in `app.py`.
 7. Refine UML so it matches what you actually built.
+
+## 📸 Demo
+Screenshot of App:
+
+![PawPal+ Demo](../streamlitdemo.png)
+

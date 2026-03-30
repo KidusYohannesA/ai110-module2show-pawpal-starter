@@ -40,14 +40,16 @@ Very unlikely to happen in this project
 
 **a. How you used AI**
 
-- How did you use AI tools during this project (for example: design brainstorming, debugging, refactoring)?
+- How did you use AI tools during this project (for example: design brainstorming, debugging, refactoring)? I used it heavily to brainstorm, design and generate tests. I learned as long as my plan is thought out extensivley utilizing the agents plan mode each new edit is likely to be foolproof
 - What kinds of prompts or questions were most helpful?
+Prompts where I invite conversation with the LLM so we can bounce off ideas and clarify things as I plan
 
 **b. Judgment and verification**
 
 - Describe one moment where you did not accept an AI suggestion as-is.
+When I asked it to implement the skeleton it also implemented methods and fields I did not specifically ask for so I had to deny the changes.
 - How did you evaluate or verify what the AI suggested?
-
+By reading it carefully and learning form the AI by asking it questions about whatever changes I didnt get.
 ---
 
 ## 4. Testing and Verification
@@ -55,12 +57,19 @@ Very unlikely to happen in this project
 **a. What you tested**
 
 - What behaviors did you test?
+    - Sorting correctness
+    - Recurrence logic
+    - Edge cases 
 - Why were these tests important?
+They were important to avoid crashing of the application and provide value for users.
 
 **b. Confidence**
 
 - How confident are you that your scheduler works correctly?
+    Slightly Confident
 - What edge cases would you test next if you had more time?
+    The state of the schedule when I add a new owner
+
 
 ---
 
@@ -69,11 +78,13 @@ Very unlikely to happen in this project
 **a. What went well**
 
 - What part of this project are you most satisfied with?
+    Conversing with the Claude
 
 **b. What you would improve**
 
 - If you had another iteration, what would you improve or redesign?
-
+    Not sure maybe my inital design could have been focused on more
 **c. Key takeaway**
 
 - What is one important thing you learned about designing systems or working with AI on this project?
+    It is very important you treat AI like a personal assistant that can also make mistakes, then you dont rely on it and it is used as a tool
