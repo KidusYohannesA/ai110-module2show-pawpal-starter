@@ -33,6 +33,24 @@ The scheduler has been enhanced with several algorithmic improvements:
 - **Recurring task auto-creation** — When a daily, weekly, or monthly task is marked complete, a new pending task is automatically created with its start time advanced to the next occurrence.
 - **Conflict detection** — `detect_conflicts()` uses a sweep-line algorithm to find overlapping task windows across all pets and returns warning messages for each conflict.
 
+## Testing PawPal+
+
+Run the full test suite with:
+
+```bash
+python -m pytest tests/test_pawpal.py -v
+```
+
+The test suite (28 tests) covers the following areas:
+
+- **Sorting correctness** — tasks are returned in chronological order by start time, and `schedule_tasks()` sorts by priority then duration
+- **Recurrence logic** — completing a daily, weekly, or monthly task creates a new pending task advanced to the next occurrence, including chained completions
+- **Conflict detection** — overlapping time windows are flagged across different pets and on the same pet, with boundary precision (off-by-one minute)
+- **Edge cases** — zero-duration tasks, recurring tasks with no start time or no pet, midnight boundaries in daily view, duplicate pet names in the registry, and silent no-ops for orphan tasks
+
+**Confidence Level: 4/5 stars**
+The core scheduling, recurrence, and conflict logic is well-covered. One star is withheld because input validation (malformed time strings, invalid priority values) is not enforced by the system and therefore not tested defensively.
+
 ## Getting started
 
 ### Setup
